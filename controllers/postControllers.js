@@ -18,7 +18,7 @@ const createPost = async (req, res) => {
 
         const imagePath = {
             path: image.path,
-            url: `/uploads/${encodeURIComponent(image.filename)}`,
+            url: `https://system-ticketing-backend.onrender.com/uploads/${encodeURIComponent(image.filename)}`,
         };
 
         post.image = imagePath;
@@ -100,7 +100,7 @@ const updatePost = async (req, res) => {
 
             const imagePath = {
                 path: image.path,
-                url: `/uploads/${encodeURIComponent(image.filename)}`,
+                url: `https://system-ticketing-backend.onrender.com/uploads/${encodeURIComponent(image.filename)}`,
             };
 
             post.image = imagePath;
