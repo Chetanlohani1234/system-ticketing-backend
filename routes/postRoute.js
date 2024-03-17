@@ -23,11 +23,11 @@ module.exports=(app)=>{
 
  app.post('/api/create-post',upload.single('image'),postController.createPost);
 
-app.get('/get-posts',postController.getPosts);
+app.get('/api/get-posts',postController.getPosts);
 
 app.get('/api/get-postsById/:id',postController.getPostsById);
 
-app.delete('/delete-post/:id',postController.deletePost);
+app.delete('/api/delete-post/:id',postController.deletePost);
 
 app.put('/api/update-post/:id',upload.single('image'),postController.updatePost);
 
