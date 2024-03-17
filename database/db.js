@@ -1,7 +1,7 @@
 const mongoose=require("mongoose");
 //const url="mongodb://127.0.0.1:27017/Ticketing"
-const url = "mongodb+srv://root:MongoDb%40123!@cluster0.8ujyaqs.mongodb.net/Ticketing"
-
+//const url = "mongodb+srv://root:MongoDb%40123!@cluster0.8ujyaqs.mongodb.net/Ticketing"
+const url = "mongodb+srv://lohanichetan4:MongoDb1234@ticketing-cluster.15tb2sf.mongodb.net/Ticketing";
 module.exports.connectdb=async(req,res)=>{
     try{ 
         await mongoose.connect(url,{
