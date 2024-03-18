@@ -1,3 +1,4 @@
+app.use('/uploads', express.static('uploads'));
 const express=require("express");
 require('dotenv').config();
 var app = express();
