@@ -1,10 +1,11 @@
-app.use('/uploads', express.static('uploads'));
+
 const express=require("express");
 require('dotenv').config();
 var app = express();
 var bodyParser = require('body-parser');
 
 const cors = require("cors");
+app.use('/uploads', express.static('uploads'));
 
 app.use(cors());
 
