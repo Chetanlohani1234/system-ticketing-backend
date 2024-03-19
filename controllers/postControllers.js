@@ -1,9 +1,9 @@
-
 const Post = require('../models/postModel');
 
 const createPost = async (req, res) => {
     try {
         const post = new Post({
+            user_id: req.body.user_id,
             category: req.body.category,
             heading: req.body.heading,
             description: req.body.description,
@@ -35,7 +35,7 @@ const createPost = async (req, res) => {
 const getPosts = async(req,res)=>{
     try{
 
-         const posts = await Post.find();
+         const posts = await Post.find().populate("user_id");
          res.status(200).send({success:true,msg:"Get data Successfully",data:posts});
 
     } catch(error){
@@ -49,7 +49,7 @@ const getPostsById = async(req,res) => {
     try{
 
         const postId = req.params.id;
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId).populate("user_id");
 
         if (!post) {
             return res.status(404).send({ success: false, msg: "Post not found" });
