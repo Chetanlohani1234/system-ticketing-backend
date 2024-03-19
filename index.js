@@ -22,6 +22,7 @@ require('./database/db').connectdb();
 //routes
  require('./routes/postRoute')(app)
  require('./routes/userRoute')(app)
+ require('./routes/commentRoute')(app)
 
 
 
