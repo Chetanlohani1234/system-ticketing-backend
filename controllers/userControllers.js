@@ -93,3 +93,32 @@ module.exports.userSignUp = async (req, res) => {
         return res.status(500).send(response);
     }
 };
+
+module.exports.getUserById = async (req, res) => {
+  const _id = req.params._id; 
+
+  try {
+    const getUser = await User.findById({_id : _id});
+
+    if (!getUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found",
+        data: null
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Get User Successfully',
+      data: getUser
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      data: null
+    });
+  }
+};
