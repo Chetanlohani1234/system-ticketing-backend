@@ -1,25 +1,25 @@
-const User = require("../models/userModel");
+const Admin = require("../models/adminModel");
 const bcryptService = require('../services/bcryptService');
 const comparePassword = require('../services/comparePassword')
 const jwtService = require("../services/jwtservice")
 const response = require('../services/responseService');
 
 
-module.exports.loginUser = async (req, res) => {
+module.exports.loginAdmin = async (req, res) => {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ email: email });
-      if (user) {
+      const admin = await Admin.findOne({ email: email });
+      if (admin) {
         const passwordMatch = await comparePassword.comparePasswords(
           password,
-          user.password
+          admin.password
         );
         console.log(passwordMatch);
         if (passwordMatch) {
-          const userToken = await jwtService.createJwt(user);
+          const adminToken = await jwtService.createJwt(admin);
           (response.success = true),
-            (response.message = "User Login Successfully"),
-            (response.data = { user, aceesToken: userToken }),
+            (response.message = "Admin Login Successfully"),
+            (response.data = { admin, aceesToken: adminToken }),
             res.status(201).send(response);
         } else {
           (response.success = false), (response.message = "Invalid password");
@@ -27,7 +27,7 @@ module.exports.loginUser = async (req, res) => {
           res.status(401).send(response);
         }
       } else {
-        (response.success = false), (response.message = "User Not Found");
+        (response.success = false), (response.message = "Admin Not Found");
         response.data = null;
         res.status(404).send(response);
       }
@@ -41,7 +41,7 @@ module.exports.loginUser = async (req, res) => {
 
 
 
-module.exports.userSignUp = async (req, res) => {
+module.exports.adminSignUp = async (req, res) => {
     try {
         const {
             name,
@@ -51,9 +51,9 @@ module.exports.userSignUp = async (req, res) => {
             role
         } = req.body;
 
-        if (role === "user") {
-            const existingUser = await User.findOne({ role: { $in: ["user"] } });
-            if (existingUser) {
+        if (role === "admin") {
+            const existingAdmin = await Admin.findOne({ role: { $in: ["admin"] } });
+            if (existingAdmin) {
                 response.success = false;
                 response.message = `${role} already exists. Only one ${role} allowed.`;
                 response.data = null;
@@ -61,8 +61,8 @@ module.exports.userSignUp = async (req, res) => {
             }
         }
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
+        const existingAdmin = await Admin.findOne({ email });
+        if (existingAdmin) {
             response.success = false;
             response.message = "Email already exists";
             response.data = null;
@@ -71,7 +71,7 @@ module.exports.userSignUp = async (req, res) => {
 
         const hashedPassword = await bcryptService.hashPassword(password);
 
-        const addUser = await User.create({
+        const addAdmin = await Admin.create({
             name,
             email,
             password: hashedPassword,
@@ -79,11 +79,11 @@ module.exports.userSignUp = async (req, res) => {
             role
         });
 
-        await addUser.save();
+        await addAdmin.save();
 
         response.success = true;
-        response.message = "User signIUp successfully";
-        response.data = addUser;
+        response.message = "Admin signUp successfully";
+        response.data = addAdmin;
         return res.status(201).send(response);
     } catch (error) {
         console.error(error);
@@ -94,24 +94,24 @@ module.exports.userSignUp = async (req, res) => {
     }
 };
 
-module.exports.getUserById = async (req, res) => {
-  const _id = req.params._id; 
+module.exports.getAdminById = async (req, res) => {
+  const _id = req.params._id;
 
   try {
-    const getUser = await User.findById({_id : _id});
+    const getAdmin = await Admin.findById({_id : _id});
 
-    if (!getUser) {
+    if (!getAdmin) {
       return res.status(404).json({
         success: false,
-        message: "User Not Found",
+        message: "Admin Not Found",
         data: null
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Get User Successfully',
-      data: getUser
+      message: 'Get Admin Successfully',
+      data: getAdmin
     });
   } catch (error) {
     console.error(error);
