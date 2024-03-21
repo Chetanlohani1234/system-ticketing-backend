@@ -1,7 +1,35 @@
 
 const express=require("express");
+
+const http = require('http');
+const socketIo = require('socket.io');
+
 require('dotenv').config();
 var app = express();
+
+const server = http.createServer(app);
+const io = socketIo(server);
+
+// Dummy comments data
+let comments = [];
+
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    // Emit existing comments to the new connection
+    socket.emit('initial-comments', comments);
+
+    socket.on('post-comment', (commentData) => {
+        // Add the new comment to the comments array
+        comments.push(commentData);
+        
+        // Broadcast the new comment to all connected clients
+        io.emit('new-comment', commentData);
+    });
+
+    // Handle other events here
+});
+
 var bodyParser = require('body-parser');
 
 const cors = require("cors");
@@ -19,6 +47,12 @@ app.use(express.json());
 //connect database......
 require('./database/db').connectdb();
 
+// Middleware for Socket.io integration
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+  });
+
 //routes
  require('./routes/postRoute')(app)
  require('./routes/userRoute')(app)
@@ -34,6 +68,10 @@ app.use((err, req, res, next) => {
         next()
     }
 })
- app.listen(port,() => {
+app.listen(port,() => {
   console.log('Server is listening on Port:', port)
 })
+
+
+
+
