@@ -10,24 +10,10 @@ var app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Dummy comments data
-let comments = [];
-
+// Handle socket connections
 io.on('connection', (socket) => {
     console.log('A user connected');
-
-    // Emit existing comments to the new connection
-    socket.emit('initial-comments', comments);
-
-    socket.on('post-comment', (commentData) => {
-        // Add the new comment to the comments array
-        comments.push(commentData);
-        
-        // Broadcast the new comment to all connected clients
-        io.emit('new-comment', commentData);
-    });
-
-    // Handle other events here
+    // Handle events here
 });
 
 var bodyParser = require('body-parser');
@@ -48,10 +34,10 @@ app.use(express.json());
 require('./database/db').connectdb();
 
 // Middleware for Socket.io integration
-app.use((req, res, next) => {
+  app.use((req, res, next) => { 
     req.io = io;
     next();
-  });
+});
 
 //routes
  require('./routes/postRoute')(app)
@@ -68,10 +54,6 @@ app.use((err, req, res, next) => {
         next()
     }
 })
-app.listen(port,() => {
+ server.listen(port,() => {
   console.log('Server is listening on Port:', port)
 })
-
-
-
-
