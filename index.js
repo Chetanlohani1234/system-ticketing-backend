@@ -64,4 +64,8 @@ io.on('connection',(socket) => {
         socket.broadcast.emit('comment',data);
 
     })
+
+    socket.on('typing', (data) => {
+        socket.broadcast.emit('typing', data) 
+    })
 })
