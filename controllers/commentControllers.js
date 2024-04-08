@@ -24,7 +24,7 @@ exports.createComment = async (req, res) => {
       const newComment = await Comment.create({ user_id, post_id, comment });
       
       // Emit a Socket.io event for real-time updates
-      req.io.emit('new-comment', newComment);
+      //req.io.emit('new-comment', newComment);
   
       res.status(201).json({ success: true, comment: newComment });
     } catch (error) {
