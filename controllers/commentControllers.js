@@ -34,17 +34,17 @@ exports.createComment = async (req, res) => {
   };
 
 
-// const getComment = async(req,res)=>{
-//     try{
+  exports.getComment = async(req,res)=>{
+    try{
 
-//          const comments = await Comment.find().populate("user_id").populate("post_id");
-//          res.status(200).send({success:true,msg:"Get Comment Successfully",data:comments});
+         const comments = await Comment.find().populate("user_id").populate("post_id");
+         res.status(200).send({success:true,msg:"Get Comment Successfully",data:comments});
 
-//     } catch(error){
-//         res.status(400).send({success:false,msg:error.message});
-//     }
+    } catch(error){
+        res.status(400).send({success:false,msg:error.message});
+    }
 
-// }
+}
 
 // const getCommentsById = async(req,res) => {
 
