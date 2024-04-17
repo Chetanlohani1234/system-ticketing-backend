@@ -20,8 +20,8 @@ const Comment = require('../models/commentModel');
 
 exports.createComment = async (req, res) => {
     try {
-      const { user_id, post_id, comment } = req.body;
-      const newComment = await Comment.create({ user_id, post_id, comment });
+      const { user_id, post_id,username, comment } = req.body;
+      const newComment = await Comment.create({ user_id, post_id,username, comment });
       
       // Emit a Socket.io event for real-time updates
       //req.io.emit('new-comment', newComment);
