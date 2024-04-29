@@ -6,6 +6,7 @@ const commentController = require('../controllers/commentControllers')
 module.exports=(app)=>{
    app.post('/api/user/comment', commentController.createComment);
    app.get('/api/user/getComment',commentController.getComment);
+   app.get('/api/user/getCommentsById',commentController.getCommentsById);
    //app.get('/api/user/getCommentById/:_id',commentController.getCommentsById);
    //app.put('/api/update-comment/:id',commentController.updateComment);
    //app.post('/api/user/logIn', userController.loginUser); 

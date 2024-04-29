@@ -46,6 +46,24 @@ exports.createComment = async (req, res) => {
 
 }
 
+exports.getCommentsById = async (req, res) => {
+  try {
+      const userId = req.query.user_id; // Get userId from query parameter
+      const postId = req.query.post_id; // Get postId from query parameter
+
+
+      const comment = await Comment.find().populate("user_id").populate("post_id");
+
+      if (!comment) {
+          return res.status(404).send({ success: false, msg: "Comment not found" });
+      }
+
+      res.status(200).send({ success: true, msg: "Get Comment Successfully", data: comment });
+  } catch (error) {
+      res.status(400).send({ success: false, msg: error.message });
+    }
+}
+
 // const getCommentsById = async(req,res) => {
 
 //     try{
