@@ -46,23 +46,49 @@ exports.createComment = async (req, res) => {
 
 }
 
+// exports.getCommentsById = async (req, res) => {
+//   try {
+//       const userId = req.query.user_id; // Get userId from query parameter
+//       const postId = req.query.post_id; // Get postId from query parameter
+
+
+//       const comment = await Comment.find().populate("user_id").populate("post_id");
+
+//       if (!comment) {
+//           return res.status(404).send({ success: false, msg: "Comment not found" });
+//       }
+
+//       res.status(200).send({ success: true, msg: "Get Comment Successfully", data: comment });
+//   } catch (error) {
+//       res.status(400).send({ success: false, msg: error.message });
+//     }
+// }
+
+
 exports.getCommentsById = async (req, res) => {
   try {
-      const userId = req.query.user_id; // Get userId from query parameter
-      const postId = req.query.post_id; // Get postId from query parameter
+    const userId = req.query.user_id; // Get userId from query parameter
+    const postId = req.query.post_id; // Get postId from query parameter
 
+    // Find comments based on userId and postId
+    const comments = await Comment.find({ user_id: userId, post_id: postId })
+                                   .populate("user_id")
+                                   .populate("post_id");
 
-      const comment = await Comment.find().populate("user_id").populate("post_id");
+    // Check if comments exist for the given criteria
+    if (comments.length === 0) {
+      return res.status(404).send({ success: false, msg: "No comments found for the specified user and post" });
+    }
 
-      if (!comment) {
-          return res.status(404).send({ success: false, msg: "Comment not found" });
-      }
-
-      res.status(200).send({ success: true, msg: "Get Comment Successfully", data: comment });
+    // Send the retrieved comments as a response
+    res.status(200).send({ success: true, msg: "Comments retrieved successfully", data: comments });
   } catch (error) {
-      res.status(400).send({ success: false, msg: error.message });
-    }
+    // Handle any errors that occur during the process
+    res.status(400).send({ success: false, msg: error.message });
+  }
 }
+
+
 
 // const getCommentsById = async(req,res) => {
 
@@ -127,3 +153,5 @@ exports.getCommentsById = async (req, res) => {
 //     deletePost,
 //     updateComment
 // }
+
+
