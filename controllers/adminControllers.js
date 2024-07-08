@@ -51,15 +51,15 @@ module.exports.adminSignUp = async (req, res) => {
             role
         } = req.body;
 
-        if (role === "admin") {
-            const existingAdmin = await Admin.findOne({ role: { $in: ["admin"] } });
-            if (existingAdmin) {
-                response.success = false;
-                response.message = `${role} already exists. Only one ${role} allowed.`;
-                response.data = null;
-                return res.status(409).send(response);
-            }
-        }
+        // if (role === "admin") {
+        //     const existingAdmin = await Admin.findOne({ role: { $in: ["admin"] } });
+        //     if (existingAdmin) {
+        //         response.success = false;
+        //         response.message = `${role} already exists. Only one ${role} allowed.`;
+        //         response.data = null;
+        //         return res.status(409).send(response);
+        //     }
+        // }
 
         const existingAdmin = await Admin.findOne({ email });
         if (existingAdmin) {
